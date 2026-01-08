@@ -21,7 +21,7 @@ import invoiceGeneratorImage from "./assets/Invoice&Quote-Generator.jpg";
 import projectEstimatorImage from "./assets/project-cost-estimator.jpg";
 import salesDashboardImage from "./assets/sales-analytics-dashboard.jpg";
 import employeeTimesheetImage from "./assets/employee-timesheet-tracker.jpg";
-import bgImage from "./assets/bg-img.mp4";
+import bgImage from "../public/bg-img.mp4";
 
 const ExcelPortfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
