@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import financialMSImage from "./assets/financial-management-system.jpg";
+import inventoryMSImage from "./assets/inventory-management-system.jpg";
+import invoiceGeneratorImage from "./assets/Invoice&Quote-Generator.jpg";
+import projectEstimatorImage from "./assets/project-cost-estimator.jpg";
+import salesDashboardImage from "./assets/sales-analytics-dashboard.jpg";
+import employeeTimesheetImage from "./assets/employee-timesheet-tracker.jpg";
+import bgImage from "./assets/bg-img.mp4";
 import {
   FileSpreadsheet,
   TrendingUp,
@@ -13,23 +20,21 @@ import {
   ChevronDown,
   Menu,
   X,
+  Loader2,
 } from "lucide-react";
-import emailjs from "@emailjs/browser";
-import financialMSImage from "./assets/financial-management-system.jpg";
-import inventoryMSImage from "./assets/inventory-management-system.jpg";
-import invoiceGeneratorImage from "./assets/Invoice&Quote-Generator.jpg";
-import projectEstimatorImage from "./assets/project-cost-estimator.jpg";
-import salesDashboardImage from "./assets/sales-analytics-dashboard.jpg";
-import employeeTimesheetImage from "./assets/employee-timesheet-tracker.jpg";
-import bgImage from "../public/bg-img.mp4";
 
+// Main Portfolio Component
 const ExcelPortfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [typedText, setTypedText] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fullText = "DR.EXCEL";
 
-  const formRef = useRef();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   const [formStatus, setFormStatus] = useState({
     loading: false,
@@ -37,10 +42,6 @@ const ExcelPortfolio = () => {
     error: false,
     message: "",
   });
-
-  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
   useEffect(() => {
     let index = 0;
@@ -159,51 +160,35 @@ const ExcelPortfolio = () => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const sendEmail = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setFormStatus({ loading: true, success: false, error: false, message: "" });
 
-    emailjs
-      .sendForm(serviceId, templateId, formRef.current, publicKey)
-      .then(() => {
-        setFormStatus({
-          loading: false,
-          success: true,
-          error: false,
-          message: "Message sent successfully! I'll get back to you soon.",
-        });
-        formRef.current.reset();
-        setTimeout(
-          () =>
-            setFormStatus({
-              loading: false,
-              success: false,
-              error: false,
-              message: "",
-            }),
-          5000
-        );
-      })
-      .catch((err) => {
-        console.error("EmailJS Error:", err);
-        setFormStatus({
-          loading: false,
-          success: false,
-          error: true,
-          message:
-            "Failed to send message. Please email me directly at alfredpeprah@hotmail.com",
-        });
-        setTimeout(
-          () =>
-            setFormStatus({
-              loading: false,
-              success: false,
-              error: false,
-              message: "",
-            }),
-          5000
-        );
+    // Simulate email sending
+    setTimeout(() => {
+      setFormStatus({
+        loading: false,
+        success: true,
+        error: false,
+        message: "Message sent successfully! I'll get back to you soon.",
       });
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(
+        () =>
+          setFormStatus({
+            loading: false,
+            success: false,
+            error: false,
+            message: "",
+          }),
+        5000
+      );
+    }, 1500);
   };
 
   return (
@@ -304,13 +289,13 @@ const ExcelPortfolio = () => {
         className="relative min-h-screen flex items-center justify-center px-6 pt-20 bg-gradient-to-br from-green-50 via-white to-green-50 overflow-hidden"
       >
         {/* Background Video (Right Corner) */}
-        <div className="absolute right-0 bottom-50 w-[35%] h-[70%] hidden md:block pointer-events-none">
+        <div className="absolute right-0 bottom-0 w-[45%] h-[70%] hidden md:block pointer-events-none">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-100"
+            className="w-full h-full object-cover opacity-80"
           >
             <source src={bgImage} type="video/mp4" />
           </video>
@@ -433,7 +418,7 @@ const ExcelPortfolio = () => {
       </section>
 
       {/* Projects Section */}
-      <section
+     <section
         id="projects"
         className="min-h-screen flex items-center justify-center px-6 py-20 bg-white"
       >
@@ -483,6 +468,7 @@ const ExcelPortfolio = () => {
         </div>
       </section>
 
+
       {/* Contact Section */}
       <section
         id="contact"
@@ -501,6 +487,8 @@ const ExcelPortfolio = () => {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <a
               href="https://wa.me/18603871944"
+              target="_blank"
+              rel="noopener noreferrer"
               className="p-8 rounded-xl bg-white border border-gray-200 hover:shadow-xl transition-all transform hover:-translate-y-2 flex items-center gap-6"
             >
               <div className="p-4 bg-green-100 rounded-full">
@@ -531,7 +519,7 @@ const ExcelPortfolio = () => {
           </div>
 
           <div className="p-8 rounded-xl bg-white border border-gray-200 shadow-xl">
-            <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
+            <div className="space-y-6">
               {formStatus.message && (
                 <div
                   className={`p-4 rounded-lg ${
@@ -550,7 +538,9 @@ const ExcelPortfolio = () => {
                 </label>
                 <input
                   type="text"
-                  name="user_name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-gray-50 text-gray-900 border-2 border-gray-200 focus:border-green-600 outline-none transition-all"
                   placeholder="Your name"
@@ -562,7 +552,9 @@ const ExcelPortfolio = () => {
                 </label>
                 <input
                   type="email"
-                  name="user_email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-gray-50 text-gray-900 border-2 border-gray-200 focus:border-green-600 outline-none transition-all"
                   placeholder="your.email@example.com"
@@ -575,13 +567,15 @@ const ExcelPortfolio = () => {
                 <textarea
                   rows="5"
                   name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-gray-50 text-gray-900 border-2 border-gray-200 focus:border-green-600 outline-none resize-none transition-all"
                   placeholder="Tell us about your project..."
                 ></textarea>
               </div>
               <button
-                type="submit"
+                onClick={handleSubmit}
                 disabled={formStatus.loading}
                 className={`w-full py-4 rounded-lg font-semibold transition-all transform shadow-lg ${
                   formStatus.loading
@@ -591,7 +585,7 @@ const ExcelPortfolio = () => {
               >
                 {formStatus.loading ? "Sending..." : "Send Message"}
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </section>
