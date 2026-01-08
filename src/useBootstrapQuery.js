@@ -7,14 +7,14 @@ export const useBootstrapQuery = () => {
     queryKey: ["bootstrap"],
     queryFn: async () => {
       await preloadAssets([
-        "/bg-img.mp4",
-        "/employee-timesheet-tracker.jpg",
-        "/financial-management-system.jpg",
-        "/inventory-management-system.jpg",
-        "/Invoice&Quote-Generator.jpg",
-        "/project-cost-estimator.jpg",
-        "/sales-analytics-dashboard.jpg",
-        "/file-spreadsheet.svg"
+        "./assets/bg-img.mp4",
+        "./assets/employee-timesheet-tracker.jpg",
+        "./assets/financial-management-system.jpg",
+        "./assets/inventory-management-system.jpg",
+        "./assets/Invoice&Quote-Generator.jpg",
+        "./assets/project-cost-estimator.jpg",
+        "./assets/sales-analytics-dashboard.jpg",
+        "./assets/file-spreadsheet.svg"
       ]);
       return true;
     },
