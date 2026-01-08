@@ -21,6 +21,7 @@ import invoiceGeneratorImage from "./assets/Invoice&Quote-Generator.jpg";
 import projectEstimatorImage from "./assets/project-cost-estimator.jpg";
 import salesDashboardImage from "./assets/sales-analytics-dashboard.jpg";
 import employeeTimesheetImage from "./assets/employee-timesheet-tracker.jpg";
+import bgImage from "./assets/bg-img.mp4";
 
 const ExcelPortfolio = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -300,9 +301,26 @@ const ExcelPortfolio = () => {
       {/* Hero Section */}
       <section
         id="home"
-        className="min-h-screen flex items-center justify-center px-6 pt-20 bg-gradient-to-br from-green-50 via-white to-green-50"
+        className="relative min-h-screen flex items-center justify-center px-6 pt-20 bg-gradient-to-br from-green-50 via-white to-green-50 overflow-hidden"
       >
-        <div className="text-center max-w-5xl">
+        {/* Background Video (Right Corner) */}
+        <div className="absolute right-0 bottom-50 w-[35%] h-[70%] hidden md:block pointer-events-none">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-100"
+          >
+            <source src={bgImage} type="video/mp4" />
+          </video>
+
+          {/* Optional soft gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-5xl">
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-green-100 rounded-full">
             <FileSpreadsheet className="text-green-600" size={24} />
             <span className="text-green-700 font-semibold">
